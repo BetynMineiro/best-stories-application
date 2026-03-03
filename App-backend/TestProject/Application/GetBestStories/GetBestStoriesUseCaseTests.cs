@@ -116,7 +116,8 @@ public class GetBestStoriesUseCaseTests
     [Fact]
     public async Task ExecuteAsync_WithCursor_RespectsCursorPosition()
     {
-        var ids = new[] { 10, 20, 30, 40 };
+        // ids after cursor "20" with PageSize 2 → [30, 40]; 50 remains so HasNext is true
+        var ids = new[] { 10, 20, 30, 40, 50 };
         _cacheServiceMock
             .Setup(x => x.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<int[]?>>>(), It.IsAny<TimeSpan?>(), It.IsAny<CancellationToken>()))
             .Returns<string, Func<Task<int[]?>>, TimeSpan?, CancellationToken>(async (_, factory, _, _) => await factory());
