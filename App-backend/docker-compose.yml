@@ -1,0 +1,16 @@
+services:
+  app-api:
+    build:
+      context: .
+      dockerfile: App.Api/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+
+  test:
+    build:
+      context: .
+      dockerfile: App.Api/Dockerfile
+      target: test
+    command: dotnet test TestProject/TestProject.csproj -c Release --no-build --verbosity normal
