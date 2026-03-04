@@ -1,5 +1,4 @@
 using App.Application.GetBestStories;
-using App.CrossCutting.Notification;
 using App.CrossCutting.RequestObjects;
 using App.CrossCutting.ResultObjects;
 using App.Domain.Entities;
@@ -9,14 +8,12 @@ namespace App.Api.Controllers;
 
 /// <summary>
 /// Returns the first best stories from Hacker News, ordered by score descending.
-/// Validation in use case; errors communicated via INotificationService.
+/// Validation in use case; errors are returned by NotificationServiceMiddleware (400 + Result messages).
 /// </summary>
 [ApiController]
 [Route("v1/[controller]")]
 [Produces("application/json")]
-public class BestStoriesController(
-    IGetBestStoriesUseCase getBestStoriesUseCase,
-    INotificationService notification) : ControllerBase
+public class BestStoriesController(IGetBestStoriesUseCase getBestStoriesUseCase) : ControllerBase
 {
     /// <summary>
     /// Gets the first best stories from Hacker News, ordered by score descending.
@@ -37,9 +34,7 @@ public class BestStoriesController(
         var request = new PagedRequest { PageSize = pageSize, Cursor = cursor };
         var page = await getBestStoriesUseCase.ExecuteAsync(request, cancellationToken);
 
-        if (notification.HasErrors)
-            return BadRequest(Result<object>.Fail(notification.GetErrors(), StatusCodes.Status400BadRequest));
-
-        return Ok(Result<CursorPage<BestStory>>.Ok(page, StatusCodes.Status200OK));
+        // Notification errors are handled by NotificationServiceMiddleware (400 + Result with messages).
+        return Ok(Result<CursorPage<BestStory>>.Ok(page));
     }
 }

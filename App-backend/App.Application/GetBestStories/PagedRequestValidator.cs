@@ -13,9 +13,6 @@ public class PagedRequestValidator : IValidator<PagedRequest>
 
     public ValidationResult Validate(PagedRequest value)
     {
-        if (value is null)
-            return ValidationResult.Fail(["Request is required."]);
-
         var errors = new List<string>();
 
         if (value.PageSize < MinPageSize || value.PageSize > MaxPageSize)

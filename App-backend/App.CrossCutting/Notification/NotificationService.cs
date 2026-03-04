@@ -12,6 +12,4 @@ public class NotificationService : INotificationService
     public bool HasErrors => _errors.Count > 0;
 
     public IReadOnlyList<string> GetErrors() => _errors.AsReadOnly();
-
-    public void Clear() => _errors.Clear();
 }

@@ -8,5 +8,4 @@ public interface INotificationService
     void AddError(string message);
     bool HasErrors { get; }
     IReadOnlyList<string> GetErrors();
-    void Clear();
 }

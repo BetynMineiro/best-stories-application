@@ -27,6 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\App.Api\App.Api.csproj" />
       <ProjectReference Include="..\App.Application\App.Application.csproj" />
       <ProjectReference Include="..\App.CrossCutting\App.CrossCutting.csproj" />
       <ProjectReference Include="..\App.Domain\App.Domain.csproj" />

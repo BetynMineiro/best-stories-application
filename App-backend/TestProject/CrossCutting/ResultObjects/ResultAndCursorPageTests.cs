@@ -21,7 +21,7 @@ public class ResultAndCursorPageTests
     [Fact]
     public void Result_Fail_SingleMessage_SetsSuccessFalseMessagesAndStatusCode()
     {
-        var result = Result<object>.Fail("Something failed", 400);
+        var result = Result<object>.Fail("Something failed");
 
         Assert.False(result.Success);
         Assert.Equal(400, result.StatusCode);
@@ -33,7 +33,7 @@ public class ResultAndCursorPageTests
     [Fact]
     public void Result_Fail_MultipleMessages_SetsAllMessagesAndStatusCode()
     {
-        var result = Result<object>.Fail(["Error one", "Error two"], 400);
+        var result = Result<object>.Fail(["Error one", "Error two"]);
 
         Assert.False(result.Success);
         Assert.Equal(400, result.StatusCode);

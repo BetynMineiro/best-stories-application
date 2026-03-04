@@ -52,13 +52,13 @@ public class GetBestStoriesUseCaseTests
     {
         var ids = new[] { 1, 2, 3 };
         _cacheServiceMock
-            .Setup(x => x.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<int[]?>>>(), It.IsAny<TimeSpan?>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<int[]?>>>(), It.IsAny<TimeSpan?>()))
             .Returns<string, Func<Task<int[]?>>, TimeSpan?, CancellationToken>(async (_, factory, _, _) => await factory());
 
         _bestStoryServiceMock.Setup(x => x.GetBestStoryIdsAsync(It.IsAny<CancellationToken>())).ReturnsAsync(ids);
 
         _cacheServiceMock
-            .Setup(x => x.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<BestStory?>>>(), It.IsAny<TimeSpan?>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<BestStory?>>>(), It.IsAny<TimeSpan?>()))
             .Returns<string, Func<Task<BestStory?>>, TimeSpan?, CancellationToken>(async (_, factory, _, _) => await factory());
 
         _bestStoryServiceMock.Setup(x => x.GetStoryByIdAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(Story("A", 10));
@@ -81,11 +81,11 @@ public class GetBestStoriesUseCaseTests
     public async Task ExecuteAsync_WhenPageSizeOver500_ClampsTo500()
     {
         _cacheServiceMock
-            .Setup(x => x.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<int[]?>>>(), It.IsAny<TimeSpan?>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<int[]?>>>(), It.IsAny<TimeSpan?>()))
             .ReturnsAsync(Enumerable.Range(1, 600).ToArray());
 
         _cacheServiceMock
-            .Setup(x => x.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<BestStory?>>>(), It.IsAny<TimeSpan?>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<BestStory?>>>(), It.IsAny<TimeSpan?>()))
             .Returns<string, Func<Task<BestStory?>>, TimeSpan?, CancellationToken>(async (_, factory, _, _) => await factory());
 
         _bestStoryServiceMock
@@ -102,7 +102,7 @@ public class GetBestStoriesUseCaseTests
     public async Task ExecuteAsync_WhenNoIds_ReturnsEmptyCursorPage()
     {
         _cacheServiceMock
-            .Setup(x => x.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<int[]?>>>(), It.IsAny<TimeSpan?>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<int[]?>>>(), It.IsAny<TimeSpan?>()))
             .ReturnsAsync([]);
 
         var request = new PagedRequest { PageSize = 10 };
@@ -119,12 +119,12 @@ public class GetBestStoriesUseCaseTests
         // ids after cursor "20" with PageSize 2 → [30, 40]; 50 remains so HasNext is true
         var ids = new[] { 10, 20, 30, 40, 50 };
         _cacheServiceMock
-            .Setup(x => x.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<int[]?>>>(), It.IsAny<TimeSpan?>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<int[]?>>>(), It.IsAny<TimeSpan?>()))
             .Returns<string, Func<Task<int[]?>>, TimeSpan?, CancellationToken>(async (_, factory, _, _) => await factory());
         _bestStoryServiceMock.Setup(x => x.GetBestStoryIdsAsync(It.IsAny<CancellationToken>())).ReturnsAsync(ids);
 
         _cacheServiceMock
-            .Setup(x => x.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<BestStory?>>>(), It.IsAny<TimeSpan?>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<BestStory?>>>(), It.IsAny<TimeSpan?>()))
             .Returns<string, Func<Task<BestStory?>>, TimeSpan?, CancellationToken>(async (_, factory, _, _) => await factory());
 
         _bestStoryServiceMock.Setup(x => x.GetStoryByIdAsync(30, It.IsAny<CancellationToken>())).ReturnsAsync(Story("S30", 30));
@@ -154,6 +154,6 @@ public class GetBestStoriesUseCaseTests
 
         // Garante que serviço e cache não são chamados quando a validação falha
         _bestStoryServiceMock.Verify(x => x.GetBestStoryIdsAsync(It.IsAny<CancellationToken>()), Times.Never);
-        _cacheServiceMock.Verify(x => x.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<int[]?>>>(), It.IsAny<TimeSpan?>(), It.IsAny<CancellationToken>()), Times.Never);
+        _cacheServiceMock.Verify(x => x.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<int[]?>>>(), It.IsAny<TimeSpan?>()), Times.Never);
     }
 }

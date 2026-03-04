@@ -15,7 +15,7 @@ public class MemoryCacheAdapter : ICacheService
         _logger = logger;
     }
 
-    public async Task<T?> GetOrCreateAsync<T>(string key, Func<Task<T?>> factory, TimeSpan? absoluteTtl = null, CancellationToken cancellationToken = default) where T : class
+    public async Task<T?> GetOrCreateAsync<T>(string key, Func<Task<T?>> factory, TimeSpan? absoluteTtl = null) where T : class
     {
         if (_cache.TryGetValue(key, out T? cached))
         {

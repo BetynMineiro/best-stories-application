@@ -38,7 +38,7 @@ public class GetBestStoriesUseCase(
         if (limit > MaxPageSize) limit = MaxPageSize;
 
         var bestStoryIds = await cacheService.GetOrCreateAsync(BestStoryIdsCacheKey, async () => (int[]?)await FetchBestStoryIdsAsync(),
-            TimeSpan.FromSeconds((double)_cacheConfig.BestStoryIdsTtlSeconds), cancellationToken);
+            TimeSpan.FromSeconds((double)_cacheConfig.BestStoryIdsTtlSeconds));
 
         if (bestStoryIds == null || bestStoryIds.Length == 0)
             return new CursorPage<BestStory>();
@@ -85,6 +85,6 @@ public class GetBestStoriesUseCase(
     {
         var cacheKey = StoryCacheKeyPrefix + storyId;
         return await cacheService.GetOrCreateAsync(cacheKey, () => bestStoryService.GetStoryByIdAsync(storyId, cancellationToken),
-            TimeSpan.FromSeconds((double)_cacheConfig.StoryDetailTtlSeconds), cancellationToken);
+            TimeSpan.FromSeconds((double)_cacheConfig.StoryDetailTtlSeconds));
     }
 }

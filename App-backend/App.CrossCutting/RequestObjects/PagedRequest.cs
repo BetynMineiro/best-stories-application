@@ -5,9 +5,6 @@ namespace App.CrossCutting.RequestObjects;
 /// </summary>
 public class PagedRequest
 {
-    /// <summary>Page number (offset-based pagination).</summary>
-    public int PageNumber { get; set; } = 1;
-
     /// <summary>Items per page / limit (also used as limit in cursor-based pagination).</summary>
     public int PageSize { get; set; } = 10;
 

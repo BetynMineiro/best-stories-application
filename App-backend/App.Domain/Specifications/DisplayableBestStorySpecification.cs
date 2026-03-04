@@ -9,6 +9,6 @@ public class DisplayableBestStorySpecification : ISpecification<BestStory>
 {
     public bool IsSatisfiedBy(BestStory candidate)
     {
-        return candidate != null && !string.IsNullOrWhiteSpace(candidate.Title);
+        return !string.IsNullOrWhiteSpace(candidate.Title);
     }
 }

@@ -5,5 +5,5 @@ namespace App.Domain.Contracts;
 /// </summary>
 public interface ICacheService
 {
-    Task<T?> GetOrCreateAsync<T>(string key, Func<Task<T?>> factory, TimeSpan? absoluteTtl = null, CancellationToken cancellationToken = default) where T : class;
+    Task<T?> GetOrCreateAsync<T>(string key, Func<Task<T?>> factory, TimeSpan? absoluteTtl = null) where T : class;
 }
